@@ -18,3 +18,12 @@ export const serviceDiscovery = async (req: Request, res: Response) => {
     data,
   });
 };
+
+export const publickey = async (req: Request, res: Response) => {
+  const data = await authService.getPublicKey();
+  return ApiResponse.OK({
+    res,
+    message: "Public Key Fetched",
+    data,
+  });
+};

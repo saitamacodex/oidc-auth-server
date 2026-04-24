@@ -1,39 +1,32 @@
-class ApiError extends Error {
-  public statusCode: number;
-  public error?: unknown; // ? represent optional
+import type { Response } from "express";
 
-  constructor(statusCode: number, message: string, error?: unknown) {
-    super(message);
-    this.statusCode = statusCode;
-    this.error = error;
-  }
+interface ApiResponseUtil<T> {
+  res: Response;
+  message: string;
+  data?: T | null;
+}
 
-  public static badRequest(message = "Bad Request", error?: unknown) {
-    return new ApiError(400, message, error);
-  }
-
-  public static unauthorized(message = "Unauthorized") {
-    return new ApiError(401, message);
-  }
-
-  public static notFound(message = "Not Found") {
-    return new ApiError(404, message);
-  }
-
-  public static conflict(message = "Conflict") {
-    return new ApiError(409, message);
-  }
-
-  public static forbidden(message = "Forbidden") {
-    return new ApiError(403, message);
-  }
-
-  public static internalServerError(
-    message = "Internal Server error",
-    error?: unknown,
+class ApiResponse {
+  private static send<T>(
+    res: Response,
+    statusCode: number,
+    message: string,
+    data: T | null,
   ) {
-    return new ApiError(500, message, error);
+    return res.status(statusCode).json({
+      success: true,
+      message,
+      data,
+    });
+  }
+
+  public static OK<T>({ res, message, data = null }: ApiResponseUtil<T>) {
+    return this.send(res, 200, message, data);
+  }
+
+  public static created<T>(args: ApiResponseUtil<T>) {
+    return this.send(args.res, 201, args.message, args.data ?? null);
   }
 }
 
-export default ApiError;
+export default ApiResponse;

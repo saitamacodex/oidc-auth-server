@@ -8,6 +8,13 @@
       "when": 1776884201937,
       "tag": "0000_spooky_red_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777046602384,
+      "tag": "0001_mean_killer_shrike",
+      "breakpoints": true
     }
   ]
 }

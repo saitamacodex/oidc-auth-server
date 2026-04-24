@@ -1,6 +1,7 @@
 import express from "express";
 import type { Application } from "express";
 import path from "node:path";
+import authRoute from "./routes/auth.route.js";
 
 export function createApp(): Application {
   const app = express();
@@ -17,6 +18,8 @@ export function createApp(): Application {
   app.get("/health", (req, res) => {
     res.json({ message: "Server is healthy", healthy: true });
   });
+
+  app.use("/api/v1/auth", authRoute);
 
   // error handler middleware
 
